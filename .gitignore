@@ -45,5 +45,6 @@ venv
 .env
 .env-mysql
 
-# My tmp file for test
+# My working files
 tmp.py
+.vscode
