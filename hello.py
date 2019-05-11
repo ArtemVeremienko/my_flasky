@@ -6,6 +6,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -17,6 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -64,9 +66,8 @@ def index():
         else:
             session['known'] = True
         session['name'] = form.name.data
-        form.name.data = ''
         return redirect(url_for('index'))
-    return render_template('index.html', form=form, name=session.get('name'))
+    return render_template('index.html', form=form, name=session.get('name'), known=session.get('known', False))
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
